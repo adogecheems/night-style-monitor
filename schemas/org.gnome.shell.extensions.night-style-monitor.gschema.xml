@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="night-style-monitor">
+    <schema id="org.gnome.shell.extensions.night-style-monitor" path="/org/gnome/shell/extensions/night-style-monitor/">
+        <key name="night-command" type="s">
+            <default>''</default>
+            <summary>Night Command</summary>
+            <description>Commands to run when night style is enabled</description>
+        </key>
+
+        <key name="day-command" type="s">
+            <default>''</default>
+            <summary>Day Command</summary>
+            <description>Commands to run when night style is disabled</description>
+        </key>
+    </schema>
+</schemalist>

@@ -1,0 +1,16 @@
+{
+  "name": "Night Style Monitor",
+  "description": "Run a custom command when switching night style.",
+  "uuid": "night-style-monitor@mmoe.work",
+  "version": "0.1.0",
+  "shell-version": [
+    "47"
+  ],
+  "url": "https://github.com/adogecheems/night-style-monitor",
+  "gettext-domain": "night-style-monitor",
+  "settings-schema": "org.gnome.shell.extensions.night-style-monitor",
+  "preferences": "prefs.js",
+  "author": "adogecheems<adogecheems@outlook.com>",
+  "schemas": "schemas/",
+  "session-modes": ["user"]
+}
