@@ -37,6 +37,11 @@ export default class NightStyleMonitor extends Extension {
     }
 
     disable() {
+        /*
+        Obviously, since the user can still enable/disable night view when the screen is locked,
+        the extension still needs to maintain correct behavior at this time,
+        so the use of session mode [unlock-dialog] is necessary.
+        */
         if (this._colorSchemeHandler) {
             this._settings.disconnect(this._colorSchemeHandler);
         }

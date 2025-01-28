@@ -8,5 +8,6 @@
     "47"
   ],
   "url": "https://github.com/adogecheems/night-style-monitor",
-  "settings-schema": "org.gnome.shell.extensions.night-style-monitor"
+  "settings-schema": "org.gnome.shell.extensions.night-style-monitor",
+  "session-modes":  [ "unlock-dialog", "user" ]
 }
