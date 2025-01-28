@@ -3,91 +3,73 @@ import Adw from 'gi://Adw';
 
 const EXTENSION_SCHEMA = 'org.gnome.shell.extensions.night-style-monitor';
 
-export default class NightStylePreferences {
+export default class NightStyleMonitorPreferences {
     constructor() {
-        this._extensionSettings = new Gio.Settings({ schema: EXTENSION_SCHEMA });
+        this._settings = new Gio.Settings({ schema: EXTENSION_SCHEMA });
     }
 
     fillPreferencesWindow(window) {
         const page = new Adw.PreferencesPage();
+        
+        page.add(this._createCommandGroup());
+        page.add(this._createNotificationGroup());
+        
+        window.add(page);
+    }
 
-        // Command settings group
-        const commandGroup = new Adw.PreferencesGroup({
+    _createCommandGroup() {
+        const group = new Adw.PreferencesGroup({
             title: 'Commands',
-            description: 'Set the commands to run when night style is enabled or disabled',
+            description: 'Set commands to run when switching styles'
         });
 
-        const nightCommandRow = new Adw.EntryRow({
-            title: 'Nightly Command',
-        });
-        commandGroup.add(nightCommandRow);
+        const nightCommand = new Adw.EntryRow({ title: 'Night Command' });
+        const dayCommand = new Adw.EntryRow({ title: 'Day Command' });
 
-        const dayCommandRow = new Adw.EntryRow({
-            title: 'Daytime Command',
-        });
-        commandGroup.add(dayCommandRow);
+        this._bindSetting('night-command', nightCommand);
+        this._bindSetting('day-command', dayCommand);
 
-        this._extensionSettings.bind(
-            'night-command',
-            nightCommandRow,
-            'text',
-            Gio.SettingsBindFlags.DEFAULT
-        );
+        group.add(nightCommand);
+        group.add(dayCommand);
 
-        this._extensionSettings.bind(
-            'day-command',
-            dayCommandRow,
-            'text',
-            Gio.SettingsBindFlags.DEFAULT
-        );
+        return group;
+    }
 
-        // Notification settings group
-        const notifyGroup = new Adw.PreferencesGroup({
+    _createNotificationGroup() {
+        const group = new Adw.PreferencesGroup({
             title: 'Notifications',
             description: 'Configure notification settings'
         });
 
-        const notifySwitch = new Adw.SwitchRow({
-            title: 'Show Notifications',
-            subtitle: 'Show notifications when night style is enabled or disabled',
+        const startNotify = new Adw.SwitchRow({
+            title: 'Show Start Notification',
+            subtitle: 'Show notification when command starts'
         });
-        nightGroup.add(notifySwitch);
 
-        const ifShowStartingSwitch = new Adw.SwitchRow({
-            title: 'Show Starting Notification',
-            subtitle: 'Whether to display a notification when the command starts executing',
-        })
-        notifyGroup.add(ifShowStartingSwitch);
-
-        const ifShowResultSwitch = new Adw.SwitchRow({
+        const resultNotify = new Adw.SwitchRow({
             title: 'Show Result Notification',
-            subtitle: 'Whether to display a notification when the command finishes executing',
-        })
-        notifyGroup.add(ifShowResultSwitch);
+            subtitle: 'Show notification when command completes'
+        });
 
-        this._settings.bind(
-            'show-notifications',
-            notifySwitch,
-            'active',
-            Gio.SettingsBindFlags.DEFAULT
-        );
+        this._bindSetting('show-start-notification', startNotify, 'active');
+        this._bindSetting('show-result-notification', resultNotify, 'active');
 
-        this._settings.bind(
-            'show-starting-notification',
-            ifShowStartingSwitch,
-            'active',
-            Gio.SettingsBindFlags.DEFAULT
-        );
+        group.add(startNotify);
+        group.add(resultNotify);
 
-        this._settings.bind(
-            'show-result-notification',
-            ifShowResultSwitch,
-            'active',
-            Gio.SettingsBindFlags.DEFAULT
-        );
+        return group;
+    }
 
-        page.add(commandGroup);
-        page.add(notifyGroup);
-        window.add(page);
+    _bindSetting(key, widget, property = 'text') {
+        try {
+            this._settings.bind(
+                key,
+                widget,
+                property,
+                Gio.SettingsBindFlags.DEFAULT
+            );
+        } catch (error) {
+            console.error(`Failed to bind setting ${key}: ${error}`);
+        }
     }
 }

@@ -15,20 +15,14 @@
         </key>
 
         <!-- Notification -->
-        <key name="show-notifications" type="b">
-            <default>true</default>
-            <summary>Show Notifications</summary>
-            <description>Show notifications when switching styles</description>
-        </key>
-
-        <key name="show-starting-notification" type="b">
+        <key name="show-start-notification" type="b">
             <default>false</default>
             <summary>Show Starting Notification</summary>
             <description>Show notification when command starts executing</description>
         </key>
 
         <key name="show-result-notification" type="b">
-            <default>true</default>
+            <default>false</default>
             <summary>Show Result Notification</summary>
             <description>Show notification when command finishes executing</description>
         </key>
