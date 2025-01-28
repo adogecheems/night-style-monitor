@@ -3,6 +3,8 @@
   "name": "Night Style Monitor",
   "description": "A Gnome extension to run a custom command when switching night style.",
   "shell-version": [
+    "45",
+    "46",
     "47"
   ],
   "url": "https://github.com/adogecheems/night-style-monitor",

@@ -1,6 +1,6 @@
+import { ExtensionPreferences } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import Gio from 'gi://Gio';
 import Adw from 'gi://Adw';
-import ExtensionPreferences from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const EXTENSION_SCHEMA = 'org.gnome.shell.extensions.night-style-monitor';
 
@@ -29,8 +29,8 @@ export default class NightStyleMonitorPreferences extends ExtensionPreferences {
             description: 'Set commands to run when switching styles'
         });
 
-        const nightCommand = new Adw.EntryRow({ title: 'Night Command' });
-        const dayCommand = new Adw.EntryRow({ title: 'Day Command' });
+        const nightCommand = new Adw.EntryRow({ title: 'Nightly Command' });
+        const dayCommand = new Adw.EntryRow({ title: 'Daytime Command' });
 
         this._bindSetting('night-command', nightCommand);
         this._bindSetting('day-command', dayCommand);
