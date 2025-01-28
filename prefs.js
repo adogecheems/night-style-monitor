@@ -7,13 +7,12 @@ const EXTENSION_SCHEMA = 'org.gnome.shell.extensions.night-style-monitor';
 export default class NightStyleMonitorPreferences extends ExtensionPreferences {
     constructor(metadata) {
         super(metadata);
-
-        this._settings = new Gio.Settings({ schema: EXTENSION_SCHEMA });
     }
 
     fillPreferencesWindow(window) {
-        const page = new Adw.PreferencesPage();
-        ({
+        this._settings = new Gio.Settings({ schema: EXTENSION_SCHEMA });
+
+        const page = new Adw.PreferencesPage({
             title: 'Notifications',
             description: 'Configure notification settings (Note: It is best not to enable two notifications at the same time)'
         });
@@ -52,16 +51,9 @@ export default class NightStyleMonitorPreferences extends ExtensionPreferences {
             subtitle: 'Show notification when command starts'
         });
 
-        const resultNotify = new Adw.SwitchRow({
-            title: 'Show Result Notification',
-            subtitle: 'Show notification when command completes'
-        });
-
         this._bindSetting('show-start-notification', startNotify, 'active');
-        this._bindSetting('show-result-notification', resultNotify, 'active');
 
         group.add(startNotify);
-        group.add(resultNotify);
 
         return group;
     }

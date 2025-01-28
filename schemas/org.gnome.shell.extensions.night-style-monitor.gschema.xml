@@ -4,13 +4,13 @@
         <!-- Command -->
         <key name="night-command" type="s">
             <default>''</default>
-            <summary>Night Command</summary>
+            <summary>Nightly Command</summary>
             <description>Commands to run when night style is enabled</description>
         </key>
 
         <key name="day-command" type="s">
             <default>''</default>
-            <summary>Day Command</summary>
+            <summary>Daytime Command</summary>
             <description>Commands to run when night style is disable</description>
         </key>
 
@@ -19,12 +19,6 @@
             <default>false</default>
             <summary>Show Starting Notification</summary>
             <description>Show notification when command starts executing</description>
-        </key>
-
-        <key name="show-result-notification" type="b">
-            <default>false</default>
-            <summary>Show Result Notification</summary>
-            <description>Show notification when command finishes executing</description>
         </key>
     </schema>
 </schemalist>

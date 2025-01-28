@@ -10,32 +10,42 @@ export default class NightStyleMonitor extends Extension {
     constructor(metadata) {
         super(metadata);
 
-        this._settings = new Gio.Settings({ schema: INTERFACE_SCHEMA });
-        this._extensionSettings = new Gio.Settings({ schema: EXTENSION_SCHEMA });
+        this._init()
+    }
 
-        this._settingsHandler = null;
+    _init() {
+        this._settings = null;
         this._colorSchemeHandler = null;
 
-        this._updateSettings();
+        this._extensionSettings = null;
+        this._settingsHandler = null;
+
+        this._nightCommand = '';
+        this._dayCommand = '';
+        this._showStartNotification = false;
     }
 
     enable() {
-        this._settingsHandler = this._extensionSettings.connect('changed', this._updateSettings.bind(this));
+        this._settings = new Gio.Settings({ schema: INTERFACE_SCHEMA });
         this._colorSchemeHandler = this._settings.connect('changed::color-scheme', this._onColorSchemeChanged.bind(this));
 
+        this._extensionSettings = new Gio.Settings({ schema: EXTENSION_SCHEMA });
+        this._settingsHandler = this._extensionSettings.connect('changed', this._updateSettings.bind(this));
+
+        this._updateSettings();
         this._onColorSchemeChanged();
     }
 
     disable() {
-        if (this._settingsHandler) {
-            this._extensionSettings.disconnect(this._settingsHandler);
-            this._settingsHandler = null;
-        }
-
         if (this._colorSchemeHandler) {
             this._settings.disconnect(this._colorSchemeHandler);
-            this._colorSchemeHandler = null;
         }
+
+        if (this._settingsHandler) {
+            this._extensionSettings.disconnect(this._settingsHandler);
+        }
+
+        this._init();
     }
 
     _onColorSchemeChanged() {
@@ -48,23 +58,18 @@ export default class NightStyleMonitor extends Extension {
         }
 
         if (this.showStartNotification) {
-            Main.notify('Night Style Monitor', 'Starting command execution');
+            Main.notify('Night Style Monitor', `Starting command execution: {command}`);
         }
-        
-        if (this.showResultNotification) {
-            Main.notify('Night Style Monitor', this._runCommand(command));
-        }
+
+        this._runCommand(command);
     }
 
     _runCommand(command) {
         try {
-            const success = GLib.spawn_command_line_async(command);
-            return success ? 'Command executed successfully' : 'Command execution failed';
+            GLib.spawn_command_line_async(command);
 
         } catch (error) {
             log(`[Night Style Monitor] Command execution error: ${error.message}`);
-            
-            return `Extension error: ${error.message}`;
         }
     }
 
@@ -77,6 +82,5 @@ export default class NightStyleMonitor extends Extension {
         this.dayCommand = this._extensionSettings.get_string('day-command');
 
         this.showStartNotification = this._extensionSettings.get_boolean('show-start-notification');
-        this.showResultNotification = this._extensionSettings.get_boolean('show-result-notification');
     }
 }
