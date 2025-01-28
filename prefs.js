@@ -5,45 +5,89 @@ const EXTENSION_SCHEMA = 'org.gnome.shell.extensions.night-style-monitor';
 
 export default class NightStylePreferences {
     constructor() {
-        this._settings = new Gio.Settings({schema: EXTENSION_SCHEMA});
+        this._extensionSettings = new Gio.Settings({ schema: EXTENSION_SCHEMA });
     }
 
     fillPreferencesWindow(window) {
         const page = new Adw.PreferencesPage();
-        
-        const group = new Adw.PreferencesGroup({
+
+        // Command settings group
+        const commandGroup = new Adw.PreferencesGroup({
             title: 'Commands',
-            description: 'Configure commands for day and night styles'
+            description: 'Set the commands to run when night style is enabled or disabled',
         });
 
-        // 使用正确的 AdwEntryRow 属性
-        const nightRow = new Adw.EntryRow({
-            title: 'Night Command',
-            // 移除不支持的 subtitle 属性
+        const nightCommandRow = new Adw.EntryRow({
+            title: 'Nightly Command',
         });
-        group.add(nightRow);
+        commandGroup.add(nightCommandRow);
 
-        const dayRow = new Adw.EntryRow({
-            title: 'Day Command',
+        const dayCommandRow = new Adw.EntryRow({
+            title: 'Daytime Command',
         });
-        group.add(dayRow);
+        commandGroup.add(dayCommandRow);
 
-        // 绑定设置
-        this._settings.bind(
+        this._extensionSettings.bind(
             'night-command',
-            nightRow,
+            nightCommandRow,
             'text',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        this._extensionSettings.bind(
+            'day-command',
+            dayCommandRow,
+            'text',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        // Notification settings group
+        const notifyGroup = new Adw.PreferencesGroup({
+            title: 'Notifications',
+            description: 'Configure notification settings'
+        });
+
+        const notifySwitch = new Adw.SwitchRow({
+            title: 'Show Notifications',
+            subtitle: 'Show notifications when night style is enabled or disabled',
+        });
+        nightGroup.add(notifySwitch);
+
+        const ifShowStartingSwitch = new Adw.SwitchRow({
+            title: 'Show Starting Notification',
+            subtitle: 'Whether to display a notification when the command starts executing',
+        })
+        notifyGroup.add(ifShowStartingSwitch);
+
+        const ifShowResultSwitch = new Adw.SwitchRow({
+            title: 'Show Result Notification',
+            subtitle: 'Whether to display a notification when the command finishes executing',
+        })
+        notifyGroup.add(ifShowResultSwitch);
+
+        this._settings.bind(
+            'show-notifications',
+            notifySwitch,
+            'active',
             Gio.SettingsBindFlags.DEFAULT
         );
 
         this._settings.bind(
-            'day-command',
-            dayRow,
-            'text',
+            'show-starting-notification',
+            ifShowStartingSwitch,
+            'active',
             Gio.SettingsBindFlags.DEFAULT
         );
 
-        page.add(group);
+        this._settings.bind(
+            'show-result-notification',
+            ifShowResultSwitch,
+            'active',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        page.add(commandGroup);
+        page.add(notifyGroup);
         window.add(page);
     }
 }

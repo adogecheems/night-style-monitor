@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="night-style-monitor">
     <schema id="org.gnome.shell.extensions.night-style-monitor" path="/org/gnome/shell/extensions/night-style-monitor/">
+        <!-- Command -->
         <key name="night-command" type="s">
             <default>''</default>
             <summary>Night Command</summary>
@@ -10,7 +11,26 @@
         <key name="day-command" type="s">
             <default>''</default>
             <summary>Day Command</summary>
-            <description>Commands to run when night style is disabled</description>
+            <description>Commands to run when day style is enabled</description>
+        </key>
+
+        <!-- Notification -->
+        <key name="show-notifications" type="b">
+            <default>true</default>
+            <summary>Show Notifications</summary>
+            <description>Show notifications when switching styles</description>
+        </key>
+
+        <key name="show-starting-notification" type="b">
+            <default>false</default>
+            <summary>Show Starting Notification</summary>
+            <description>Show notification when command starts executing</description>
+        </key>
+
+        <key name="show-result-notification" type="b">
+            <default>true</default>
+            <summary>Show Result Notification</summary>
+            <description>Show notification when command finishes executing</description>
         </key>
     </schema>
 </schemalist>
