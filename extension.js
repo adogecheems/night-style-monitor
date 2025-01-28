@@ -24,8 +24,6 @@ export default class NightStyleMonitor extends Extension {
         this._colorSchemeHandler = this._settings.connect('changed::color-scheme', this._onColorSchemeChanged.bind(this));
 
         this._onColorSchemeChanged();
-
-        log('[Night Style Monitor] Extension enabled');
     }
 
     disable() {
@@ -38,8 +36,6 @@ export default class NightStyleMonitor extends Extension {
             this._settings.disconnect(this._colorSchemeHandler);
             this._colorSchemeHandler = null;
         }
-
-        log('[Night Style Monitor] Extension disabled');
     }
 
     _onColorSchemeChanged() {
@@ -51,30 +47,24 @@ export default class NightStyleMonitor extends Extension {
             return;
         }
 
-        log(`[Night Style Monitor] ${isNightStyle ? 'Enable' : 'Disable'} night style`);
-
         if (this.showStartNotification) {
             Main.notify('Night Style Monitor', 'Starting command execution');
         }
-
-        const result = this._runCommand(command);
         
         if (this.showResultNotification) {
-            Main.notify('Night Style Monitor', result);
+            Main.notify('Night Style Monitor', this._runCommand(command));
         }
     }
 
     _runCommand(command) {
         try {
-            log(`[Night Style Monitor] Executing command: ${command}`);
-
             const success = GLib.spawn_command_line_async(command);
             return success ? 'Command executed successfully' : 'Command execution failed';
 
         } catch (error) {
             log(`[Night Style Monitor] Command execution error: ${error.message}`);
             
-            return `Execution error: ${error.message}`;
+            return `Extension error: ${error.message}`;
         }
     }
 

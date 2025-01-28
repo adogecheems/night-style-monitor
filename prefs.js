@@ -1,19 +1,25 @@
 import Gio from 'gi://Gio';
 import Adw from 'gi://Adw';
+import ExtensionPreferences from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const EXTENSION_SCHEMA = 'org.gnome.shell.extensions.night-style-monitor';
 
-export default class NightStyleMonitorPreferences {
-    constructor() {
+export default class NightStyleMonitorPreferences extends ExtensionPreferences {
+    constructor(metadata) {
+        super(metadata);
+
         this._settings = new Gio.Settings({ schema: EXTENSION_SCHEMA });
     }
 
     fillPreferencesWindow(window) {
         const page = new Adw.PreferencesPage();
-        
+        ({
+            title: 'Notifications',
+            description: 'Configure notification settings (Note: It is best not to enable two notifications at the same time)'
+        });
         page.add(this._createCommandGroup());
         page.add(this._createNotificationGroup());
-        
+
         window.add(page);
     }
 
@@ -38,7 +44,7 @@ export default class NightStyleMonitorPreferences {
     _createNotificationGroup() {
         const group = new Adw.PreferencesGroup({
             title: 'Notifications',
-            description: 'Configure notification settings'
+            description: 'Configure notification settings (Note: It is best not to enable two notifications at the same time)'
         });
 
         const startNotify = new Adw.SwitchRow({
@@ -69,7 +75,7 @@ export default class NightStyleMonitorPreferences {
                 Gio.SettingsBindFlags.DEFAULT
             );
         } catch (error) {
-            console.error(`Failed to bind setting ${key}: ${error}`);
+            log(`[Night Style Monitor] Failed to bind setting ${key}: ${error}`);
         }
     }
 }

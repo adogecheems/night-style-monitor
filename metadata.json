@@ -1,35 +1,10 @@
 {
+  "uuid": "night-style-monitor@mmoe.work",
   "name": "Night Style Monitor",
   "description": "A Gnome extension to run a custom command when switching night style.",
-  "uuid": "night-style-monitor@mmoe.work",
-  "version": "1",
   "shell-version": [
     "47"
   ],
   "url": "https://github.com/adogecheems/night-style-monitor",
-  "gettext-domain": "night-style-monitor",
-  "settings-schema": "org.gnome.shell.extensions.night-style-monitor",
-  "preferences": "prefs.js",
-  "author": "adogecheems<adogecheems@outlook.com>",
-  "schemas": "schemas/",
-  "session-modes": ["user"],
-  "license": "GPL-3.0",
-  "dependencies": [
-    "gjs (>= 1.50.0)",
-    "gtk4"
-  ],
-  "keywords": [
-    "night-mode",
-    "dark-mode",
-    "night-style",
-    "dark-style",
-    "night-theme",
-    "dark-theme",
-    "style",
-    "theme",
-    "monitor",
-    "command",
-    "notification",
-    "custom"
-  ]
+  "settings-schema": "org.gnome.shell.extensions.night-style-monitor"
 }

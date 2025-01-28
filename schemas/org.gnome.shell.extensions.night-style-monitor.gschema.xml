@@ -11,7 +11,7 @@
         <key name="day-command" type="s">
             <default>''</default>
             <summary>Day Command</summary>
-            <description>Commands to run when day style is enabled</description>
+            <description>Commands to run when night style is disable</description>
         </key>
 
         <!-- Notification -->
