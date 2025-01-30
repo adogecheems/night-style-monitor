@@ -12,10 +12,7 @@ export default class NightStyleMonitorPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         this._settings = new Gio.Settings({ schema: EXTENSION_SCHEMA });
 
-        const page = new Adw.PreferencesPage({
-            title: 'Notifications',
-            description: 'Configure notification settings (Note: It is best not to enable two notifications at the same time)'
-        });
+        const page = new Adw.PreferencesPage();
         page.add(this._createCommandGroup());
         page.add(this._createNotificationGroup());
 

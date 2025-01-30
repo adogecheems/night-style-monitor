@@ -63,7 +63,7 @@ export default class NightStyleMonitor extends Extension {
         }
 
         if (this.showStartNotification) {
-            Main.notify('Night Style Monitor', `Starting command execution: {command}`);
+            Main.notify('Night Style Monitor', `Starting command execution: ${command}`);
         }
 
         this._runCommand(command);
