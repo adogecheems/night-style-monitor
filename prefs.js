@@ -11,6 +11,9 @@ export default class NightStyleMonitorPreferences extends ExtensionPreferences {
 
     fillPreferencesWindow(window) {
         this._settings = new Gio.Settings({ schema: EXTENSION_SCHEMA });
+        window.connect('close-request', () => {
+            this._settings = null;
+        });
 
         const page = new Adw.PreferencesPage();
         page.add(this._createCommandGroup());
@@ -64,7 +67,7 @@ export default class NightStyleMonitorPreferences extends ExtensionPreferences {
                 Gio.SettingsBindFlags.DEFAULT
             );
         } catch (error) {
-            log(`[Night Style Monitor] Failed to bind setting ${key}: ${error}`);
+            console.error(`[Night Style Monitor] Failed to bind setting ${key}: ${error}`);
         }
     }
 }

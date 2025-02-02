@@ -10,15 +10,15 @@ export default class NightStyleMonitor extends Extension {
     constructor(metadata) {
         super(metadata);
 
-        this._init()
+        this._cleanup()
     }
 
-    _init() {
+    _cleanup() {
         this._settings = null;
         this._colorSchemeHandler = null;
 
         this._extensionSettings = null;
-        this._settingsHandler = null;
+        this._extensionSettingsHandler = null;
 
         this._nightCommand = '';
         this._dayCommand = '';
@@ -30,7 +30,7 @@ export default class NightStyleMonitor extends Extension {
         this._colorSchemeHandler = this._settings.connect('changed::color-scheme', this._onColorSchemeChanged.bind(this));
 
         this._extensionSettings = new Gio.Settings({ schema: EXTENSION_SCHEMA });
-        this._settingsHandler = this._extensionSettings.connect('changed', this._updateSettings.bind(this));
+        this._extensionSettingsHandler = this._extensionSettings.connect('changed', this._updateSettings.bind(this));
 
         this._updateSettings();
         this._onColorSchemeChanged();
@@ -46,11 +46,11 @@ export default class NightStyleMonitor extends Extension {
             this._settings.disconnect(this._colorSchemeHandler);
         }
 
-        if (this._settingsHandler) {
-            this._extensionSettings.disconnect(this._settingsHandler);
+        if (this._extensionSettingsHandler) {
+            this._extensionSettings.disconnect(this._extensionSettingsHandler);
         }
 
-        this._init();
+        this._cleanup();
     }
 
     _onColorSchemeChanged() {
@@ -74,7 +74,7 @@ export default class NightStyleMonitor extends Extension {
             GLib.spawn_command_line_async(command);
 
         } catch (error) {
-            log(`[Night Style Monitor] Command execution error: ${error.message}`);
+            console.error(`[Night Style Monitor] Command execution error: ${error.message}`);
         }
     }
 
