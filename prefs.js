@@ -43,7 +43,7 @@ export default class NightStyleMonitorPreferences extends ExtensionPreferences {
     _createNotificationGroup() {
         const group = new Adw.PreferencesGroup({
             title: 'Notifications',
-            description: 'Configure notification settings (Note: It is best not to enable two notifications at the same time)'
+            description: 'Configure notification settings'
         });
 
         const startNotify = new Adw.SwitchRow({
